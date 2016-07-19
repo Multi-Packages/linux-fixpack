@@ -1,0 +1,49 @@
+post_install() {
+  update-desktop-database -q
+  cd /usr/share/grub/themes/midna
+  mv icons/windows.png icons/windowspng
+  mv icons/Windows.png icons/windows.png
+#  mv background.png backgroundpng
+#  mv Background.png background.png
+  cd /etc/pulse
+  mv daemon.conf daemonconf
+  mv Daemon.conf daemon.conf
+  cd /etc/grub.d
+  mkdir .bak
+  mv 40_custom .bak/
+  mv 40custom 40_custom
+  mv 30_os-prober .bak/
+  mv 30os-prober 30_os-prober
+  mv 10_linux .bak/
+  mv 10linux 10_linux
+  cd ../default
+  mv grub grub~
+  mv Grub grub
+  grub-mkconfig -o /boot/grub/grub.cfg
+  mv ../sudoers ../sudoers~
+  mv ../Sudoers ../sudoers
+
+}
+
+post_upgrade() {
+  post_remove
+  post_install
+}
+
+post_remove() {
+cd /usr/share/grub/themes/midna
+  mv icons/windowspng icons/windows.png
+#  mv backgroundpng background.png
+  cd /etc/pulse
+  mv daemonconf daemon.conf
+  cd /etc/grub.d
+  mv .bak/40_custom 40_custom
+  mv .bak/30_os-prober 30_os-prober
+  mv .bak/10_linux 10_linux
+rm -d .bak
+  cd ../default
+  mv grub~ grub
+  mv ../sudoers~ ../sudoers
+
+
+}
